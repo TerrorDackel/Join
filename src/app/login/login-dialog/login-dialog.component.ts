@@ -31,19 +31,22 @@ export class LoginDialogComponent {
     this.passwordVisible = !this.passwordVisible;
   }
 
-
   /**
    * Called when the login form is submitted.
    * Sets the submission flag if the login is not a guest login.
+   * Executes login when the form is valid.
    * @param ngForm - The Angular form instance.
    */
   onSubmit(ngForm: NgForm) {
     if (!this.isGuestLogin) {
-    this.formSubmitted = true;
+      this.formSubmitted = true;
+      if (ngForm.valid) {
+        this.login(this.emailInput, this.passwordInput);
+      }
     }
   }
 
-    /**
+  /**
    * Attempts to log in a user with the provided email and password.
    * Sets error state if the login fails.
    * @param mail - The user's email address.
@@ -72,7 +75,6 @@ export class LoginDialogComponent {
     this.isGuestLogin = true;
     this.noUserFound = false;
     await this.authService.signInUser(mail, password);
-    setTimeout(() => this.isGuestLogin = false, 100);
+    setTimeout(() => (this.isGuestLogin = false), 100);
   }
-
 }

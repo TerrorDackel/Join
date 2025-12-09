@@ -19,6 +19,9 @@
         required
         pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
         placeholder="Email"
+        autocomplete="email"
+        aria-label="Email"
+        aria-describedby="login-error"
       />
       <div class="icon">
         <img
@@ -27,6 +30,7 @@
         />
       </div>
     </div>
+
     <div class="password-input-wrapper">
       <input
         #password="ngModel"
@@ -38,32 +42,55 @@
         required
         pattern=".{8,}"
         placeholder="Password"
+        autocomplete="current-password"
+        aria-label="Password"
+        aria-describedby="login-error"
       />
-
       @if (!passwordInput) {
-      <div class="icon">
-        <img src="./assets/icons/kanban/lock.svg" alt="Password Icon" />
-      </div>
+        <div class="icon">
+          <img
+            src="./assets/icons/kanban/lock.svg"
+            alt="Password Icon"
+          />
+        </div>
       } @if (passwordInput) {
-      <div class="icon" (click)="togglePasswordVisibility()">
-        <img
-          [src]="
-            passwordVisible
-              ? './assets/icons/kanban/visibility.svg'
-              : './assets/icons/kanban/visibility_off.svg'
-          "
-        />
-      </div>
+        <div
+          class="icon"
+          (click)="togglePasswordVisibility()"
+        >
+          <img
+            [src]="
+              passwordVisible
+                ? './assets/icons/kanban/visibility.svg'
+                : './assets/icons/kanban/visibility_off.svg'
+            "
+            alt="Toggle password visibility"
+          />
+        </div>
       }
     </div>
 
     @if ((formSubmitted && (!email.valid || !password.valid)) || noUserFound) {
-    <span class="error-message"
-      >Check your email and password. Please try again.</span>
+      <span
+        id="login-error"
+        class="error-message"
+        role="alert"
+      >
+        Check your email and password. Please try again.
+      </span>
     } @else if (formSubmitted && noUserFound) {
-    <span class="error-message"> No user found. Please try again. </span>
-    } @else { 
-      <span class="error-message"></span> 
+      <span
+        id="login-error"
+        class="error-message"
+        role="alert"
+      >
+        No user found. Please try again.
+      </span>
+    } @else {
+      <span
+        id="login-error"
+        class="error-message"
+      ></span>
     }
 
     <div class="login-button-wrapper">
@@ -71,12 +98,12 @@
         class="login-button"
         type="submit"
         [disabled]="!email.valid || !password.valid"
-        (click)="login(this.emailInput, this.passwordInput)"
       >
         Log in
       </button>
       <button
         class="guest-button"
+        type="button"
         (click)="guestLogin('admin@join.com', 'joinadmin')"
       >
         Guest Log In
