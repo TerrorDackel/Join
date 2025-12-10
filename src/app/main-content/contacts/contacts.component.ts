@@ -7,6 +7,7 @@ import { ContactInfoComponent } from './contact-info/contact-info.component';
 import { SignalsService } from '../../services/signals.service';
 import { DummyContactsService } from '../../services/dummy-contacts.service';
 import { ToastService } from '../../services/toast.service';
+
 @Component({
   selector: 'app-contacts',
   standalone: true,
@@ -14,7 +15,6 @@ import { ToastService } from '../../services/toast.service';
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss',
 })
-
 /**
  * Component responsible for displaying and managing contacts.
  * Allows adding, editing, deleting, and viewing contact information.
@@ -36,10 +36,9 @@ export class ContactsComponent {
   btnDelete: boolean = false;
   btnEdit: boolean = false;
 
-
   /** Initializes the component by loading contacts and grouping them by the first letter. */
   async ngOnInit() {
-    await this.loadContacts(); 
+    await this.loadContacts();
     this.signalService.checkScreenSize();
     this.groupContactsByFirstLetter();
   }
@@ -61,7 +60,13 @@ export class ContactsComponent {
 
   /**Groups contacts by their first letter. */
   groupContactsByFirstLetter() {
-    this.firstLetters = [...new Set(this.contactsService.contacts.map(contact => contact.name.charAt(0).toUpperCase()))];
+    this.firstLetters = [
+      ...new Set(
+        this.contactsService.contacts.map((contact) =>
+          contact.name.charAt(0).toUpperCase(),
+        ),
+      ),
+    ];
     return this.firstLetters;
   }
 
@@ -70,11 +75,30 @@ export class ContactsComponent {
    * @param index The index of the contact to display.
    */
   showContactInfo(index: number | undefined) {
-    if (this.activeContactIndex === index && this.contactClicked && this.activeContactIndex !== undefined) {
+    if (
+      this.activeContactIndex === index &&
+      this.contactClicked &&
+      this.activeContactIndex !== undefined
+    ) {
       this.contactClicked = false;
     } else {
       this.activeContactIndex = index;
       this.contactClicked = true;
+    }
+  }
+
+  /**
+   * Keyboard handler for a contact row (Enter/Space behaves like click).
+   * @param event Keyboard event
+   * @param index Contact index
+   */
+  onContactKeydown(event: KeyboardEvent, index: number): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.showContactInfo(index);
+      if (this.signalService.isMobile()) {
+        this.showInfos();
+      }
     }
   }
 
@@ -90,7 +114,12 @@ export class ContactsComponent {
    * Sets the data for editing a contact.
    * @param data The contact data to edit.
    */
-  handleContactData(data: { id: string, name: string; mail: string; phone: string }) {
+  handleContactData(data: {
+    id: string;
+    name: string;
+    mail: string;
+    phone: string;
+  }) {
     this.editId = data.id;
     this.editName = data.name;
     this.editMail = data.mail;
@@ -138,7 +167,8 @@ export class ContactsComponent {
    * @param index The contact index.
    */
   lastInitial(index: number): string {
-    const contact = index != null ? this.contactsService.contacts[index] : null;
+    const contact =
+      index != null ? this.contactsService.contacts[index] : null;
     if (!contact || !contact.name) return '';
     const parts = contact.name.trim().split(' ');
     const lastWord = parts.at(-1) || '';
@@ -191,6 +221,14 @@ export class ContactsComponent {
     this.contactClicked = false;
   }
 
+  /** Keyboard handler for the close-contact-info button (mobile back arrow). */
+  onCloseInfoKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.closeContactInfo();
+    }
+  }
+
   /** Toggles the visibility of the dialog. */
   toggleDialog() {
     this.showDialog = !this.showDialog;
@@ -224,5 +262,4 @@ export class ContactsComponent {
       this.deleteContact(this.activeContactIndex);
     }
   }
-
 }
