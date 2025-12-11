@@ -47,34 +47,34 @@ export class SummaryComponent {
     iconHovered: string;
     isHovered: boolean;
   }[] = [
-      {
-        type: 'toDo',
-        text: 'To-Do',
-        icon: './assets/icons/general/edit_white.svg',
-        iconHovered: './assets/icons/general/edit.svg',
-        isHovered: false,
-      },
-      {
-        type: 'done',
-        text: 'Done',
-        icon: './assets/icons/general/check_white.svg',
-        iconHovered: './assets/icons/general/check.svg',
-        isHovered: false,
-      },
-    ];
+    {
+      type: 'toDo',
+      text: 'To-Do',
+      icon: './assets/icons/general/edit_white.svg',
+      iconHovered: './assets/icons/general/edit.svg',
+      isHovered: false,
+    },
+    {
+      type: 'done',
+      text: 'Done',
+      icon: './assets/icons/general/check_white.svg',
+      iconHovered: './assets/icons/general/check.svg',
+      isHovered: false,
+    },
+  ];
 
   /**
-* Initializes task data and user name.
-*/
+   * Initializes task data and user name.
+   */
   ngOnInit() {
     this.tasksService.loadTasks();
     this.authService.showActiveUserName();
     this.startWelcomeAnimation();
   }
-  
+
   /**
-  * Shows and fades out welcome message on mobile.
-  */
+   * Shows and fades out welcome message on mobile.
+   */
   startWelcomeAnimation() {
     if (window.innerWidth < 1000 && this.signalService.signingIn()) {
       this.showWelcome = true;
@@ -92,6 +92,17 @@ export class SummaryComponent {
   /** Navigates to the task board view. */
   toBoard() {
     this.router.navigate(['/board']);
+  }
+
+  /**
+   * Keyboard handler for summary buttons (Enter/Space).
+   */
+  onSummaryButtonKeydown(event: KeyboardEvent): void {
+    const key = event.key;
+    if (key === 'Enter' || key === ' ') {
+      event.preventDefault();
+      this.toBoard();
+    }
   }
 
   /**
@@ -126,11 +137,11 @@ export class SummaryComponent {
    * @returns A string like "Good morning" or "Good evening".
    */
   textChangeTime(): string {
-  const hour = new Date().getHours();
-  if (hour >= 5 && hour < 12) return 'Good morning';
-  if (hour >= 12 && hour < 17) return 'Good afternoon';
-  if (hour >= 17 && hour < 21) return 'Good evening';
-  return 'Good night';
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return 'Good morning';
+    if (hour >= 12 && hour < 17) return 'Good afternoon';
+    if (hour >= 17 && hour < 21) return 'Good evening';
+    return 'Good night';
   }
 
 }
