@@ -3,13 +3,22 @@
 
 .header-section-desktop {
   @include dFlex($jc: space-between);
-  max-width: calc( $appMaxWidth - $navbar-width );
+  max-width: calc($appMaxWidth - $navbar-width);
   width: 100%;
   padding: 20px;
 
   .header-logo {
     display: none;
     width: 32px;
+  }
+
+  /* Sichtbarer Tastaturfokus für Header-Interaktionen */
+  .header-logo-link:focus-visible,
+  .menu-section a:focus-visible,
+  .menu-button:focus-visible {
+    outline: 2px solid $col-ref-highlight;
+    outline-offset: 4px;
+    border-radius: 9999px;
   }
 
   @media (max-width: $queryBreak1) {
@@ -43,6 +52,11 @@
     .help-icon {
       display: none;
     }
+
+    /* Verhindert einen unsichtbaren, aber fokussierbaren Hilfe-Link auf Mobil */
+    > a {
+      display: none;
+    }
   }
 }
 
@@ -70,15 +84,20 @@
     width: 100%;
 
     a,
-    p {
+    button {
       cursor: pointer;
       width: 100%;
       padding: 14px 0 14px 16px;
       text-decoration: none;
       color: $col-font-dropdown;
+      background: none;
+      border: none;
+      text-align: left;
 
-      &:hover {
+      &:hover,
+      &:focus-visible {
         background-color: $col-ref-hover;
+        outline: none;
       }
     }
   }
@@ -107,7 +126,9 @@
     transform: translateY(0);
   }
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background-color: $col-ref-active-nav;
+    outline: none;
   }
 }

@@ -1,9 +1,7 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, HostListener, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { SignalsService } from '../../services/signals.service';
 import { AuthenticationService } from '../../services/authentication.service';
-import { Router } from '@angular/router';
-import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-header',
@@ -15,9 +13,7 @@ import { UsersService } from '../../services/users.service';
 export class HeaderComponent {
   signalService = inject(SignalsService);
   authService = inject(AuthenticationService);
-  usersService = inject(UsersService);
   showDropdown = false;
-  isDropdownOpen = false;
   dropdownVisible = false;
   showLogoutPopup = false;
   logoutPopupVisible = false;
@@ -30,7 +26,7 @@ export class HeaderComponent {
   constructor(private router: Router) {}
 
   /** Sets current user initials. */
-  async ngOnInit(){
+  async ngOnInit() {
     await this.authService.setActiveUserInitials();
   }
 
@@ -39,8 +35,9 @@ export class HeaderComponent {
    * @param event The resize event.
    */
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.isWideScreen = event.target.innerWidth > 1920;
+  onResize(event: UIEvent) {
+    const target = event.target as Window;
+    this.isWideScreen = target.innerWidth > 1920;
     if (!this.isWideScreen) {
       this.showLogoutPopup = false;
     } else {
@@ -49,11 +46,21 @@ export class HeaderComponent {
   }
 
   /**
-   * Closes dropdown when clicking outside the component.
+   * Closes dropdown and logout popup when clicking outside the component.
    */
   @HostListener('document:click')
   handleClickOutside(): void {
     this.closeDropdown();
+    this.closeLogoutPopup();
+  }
+
+  /**
+   * Closes dropdown and logout popup on Escape key.
+   */
+  @HostListener('document:keydown.escape')
+  handleEscapeKey(): void {
+    this.closeDropdown();
+    this.closeLogoutPopup();
   }
 
   /**
@@ -128,7 +135,5 @@ export class HeaderComponent {
   backToLogin() {
     this.signalService.hideHrefs.set(false);
     this.router.navigate(['login']);
-  };
-
-
+  }
 }

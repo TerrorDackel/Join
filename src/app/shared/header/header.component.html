@@ -1,41 +1,115 @@
-<section class="header-section-desktop">
-  <p class="header-title">Kanban Project Management Tool</p>
-  <a  (click)="authService.isLoggedIn() ? toSummary() : backToLogin()" routerLink="/"><img class="header-logo" src="./assets/icons/header/logo.svg" alt="Join Logo"></a>
+<header
+  class="header-section-desktop"
+  role="banner"
+  aria-label="Main application header"
+>
+  <p class="header-title">
+    Kanban Project Management Tool
+  </p>
+
+  <a
+    class="header-logo-link"
+    routerLink="/"
+    (click)="authService.isLoggedIn() ? toSummary() : backToLogin()"
+    [attr.aria-label]="authService.isLoggedIn() ? 'Go to summary page' : 'Go to login page'"
+  >
+    <img
+      class="header-logo"
+      src="./assets/icons/header/logo.svg"
+      alt="Join 360 home"
+    />
+  </a>
+
   <div class="menu-section">
-    <a routerLink="/help"
-      ><img class="help-icon" src="./assets/icons/header/help.svg" alt=""
-    /></a>
-    <button class="menu-button" (click)="onMenuButtonClick($event); $event.stopPropagation()">
+    <a
+      routerLink="/help"
+      aria-label="Open help page"
+    >
+      <img
+        class="help-icon"
+        src="./assets/icons/header/help.svg"
+        alt="Help"
+      />
+    </a>
+
+    <button
+      class="menu-button"
+      type="button"
+      (click)="onMenuButtonClick($event)"
+      [attr.aria-haspopup]="authService.isLoggedIn() ? 'menu' : null"
+      [attr.aria-expanded]="(dropdownVisible || logoutPopupVisible) ? 'true' : 'false'"
+      aria-label="Open user menu"
+    >
       @if (authService.isLoggedIn()) {
-        {{ this.authService.activeInitials() }}
+      <span aria-hidden="true">
+        {{ authService.activeInitials() }}
+      </span>
       } @else {
-        <img src="./assets/icons/header/menu.svg" alt="Menu Button">
+      <img
+        src="./assets/icons/header/menu.svg"
+        alt="Open navigation menu"
+      />
       }
     </button>
 
     @if (dropdownVisible) {
-    <div class="dropdown-menu" [class.show]="showDropdown" (click)="$event.stopPropagation()">
+    <nav
+      class="dropdown-menu"
+      [class.show]="showDropdown"
+      (click)="$event.stopPropagation()"
+      aria-label="User navigation menu"
+    >
       <div class="router-wrapper">
-        <a (click)="toggleDropdown()" routerLink="/help">Help</a>
-        <a (click)="toggleDropdown()" routerLink="/legal-notice"
-          >Legal Notice</a
+        <a
+          (click)="toggleDropdown()"
+          routerLink="/help"
         >
-        <a (click)="toggleDropdown()" routerLink="/privacy-policy"
-          >Privacy Policy</a
-        >
-          <p (click)="toggleDropdown(); logout()">
-            @if (authService.isLoggedIn()) {Log out} @else { To Login }
-          </p>
-      </div>
-    </div>
+          Help
+        </a>
 
-    } @if (logoutPopupVisible) {
-      <button 
-      class="logout-popup-btn" 
-      [class.show]="showLogoutPopup" 
-      (click)="logout()">
-      @if (authService.isLoggedIn()) {Log out} @else { To Login }
+        <a
+          (click)="toggleDropdown()"
+          routerLink="/legal-notice"
+        >
+          Legal Notice
+        </a>
+
+        <a
+          (click)="toggleDropdown()"
+          routerLink="/privacy-policy"
+        >
+          Privacy Policy
+        </a>
+
+        <button
+          type="button"
+          (click)="toggleDropdown(); logout()"
+          [attr.aria-label]="authService.isLoggedIn() ? 'Log out' : 'Go to login page'"
+        >
+          @if (authService.isLoggedIn()) {
+          Log out
+          } @else {
+          To Login
+          }
+        </button>
+      </div>
+    </nav>
+    }
+
+    @if (logoutPopupVisible) {
+    <button
+      class="logout-popup-btn"
+      [class.show]="showLogoutPopup"
+      type="button"
+      (click)="logout()"
+      [attr.aria-label]="authService.isLoggedIn() ? 'Log out' : 'Go to login page'"
+    >
+      @if (authService.isLoggedIn()) {
+      Log out
+      } @else {
+      To Login
+      }
     </button>
     }
   </div>
-</section>
+</header>
