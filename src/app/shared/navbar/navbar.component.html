@@ -1,66 +1,124 @@
-<div class="navbar-section-desktop">
-    <div class="navbar-icon-container" (click)="authService.isLoggedIn() ? toSummary() : backToLogin()">
-        <a><img class="image" src="assets/icons/navbar/logo.svg" alt=""></a>
+<nav
+  class="navbar-section-desktop"
+  role="navigation"
+  aria-label="Main navigation"
+>
+  <div class="navbar-icon-container">
+    <a
+      class="navbar-logo-link"
+      routerLink="/"
+      (click)="authService.isLoggedIn() ? toSummary() : backToLogin()"
+      [attr.aria-label]="authService.isLoggedIn() ? 'Go to summary page' : 'Go to login page'"
+    >
+      <img
+        class="image"
+        src="assets/icons/navbar/logo.svg"
+        alt="Join 360 home"
+      >
+    </a>
+  </div>
+
+  <div class="navbar-components-container">
+    <div class="links-alignement">
+      @if (!signalService.hideHrefs() && authService.isLoggedIn()) {
+        @for (link of links; track link.route) {
+          <app-navbar-icon-link
+            [iconUnclicked]="link.iconUnclicked"
+            [iconClicked]="link.iconClicked"
+            [route]="link.route"
+            [alt]="link.alt"
+            [isActive]="activeLink === link.route"
+            (activate)="setActiveLink(link.route)"
+          >
+          </app-navbar-icon-link>
+        }
+      }
     </div>
-    <div class="navbar-components-container">
-        <div class="links-alignement">
-            @if (!signalService.hideHrefs() && authService.isLoggedIn()) {
-                @for (link of links; track link.route) {
-                    <app-navbar-icon-link
-                        [iconUnclicked]="link.iconUnclicked"
-                        [iconClicked]="link.iconClicked"
-                        [route]="link.route"
-                        [alt]="link.alt"
-                        [isActive]="activeLink === link.route"
-                        (activate)="setActiveLink(link.route)">
-                    </app-navbar-icon-link>
-                }
-            }
-        </div>
-    </div>
-    <div class="privacy-and-legal-container">
-        <a routerLink="/privacy-policy" class="privacy-policy-background-container" [class.active]="activeLink === '/privacy-policy'" (click)="setActiveLink('/privacy-policy')">
-            <div class="link-container">
-                <p data-text="Privacy Policy">Privacy Policy</p>
-            </div>
+  </div>
+
+  <div class="privacy-and-legal-container">
+    <a
+      routerLink="/privacy-policy"
+      class="privacy-policy-background-container"
+      [class.active]="activeLink === '/privacy-policy'"
+      (click)="setActiveLink('/privacy-policy')"
+      aria-label="Open privacy policy page"
+    >
+      <div class="link-container">
+        <p data-text="Privacy Policy">
+          Privacy Policy
+        </p>
+      </div>
+    </a>
+
+    <a
+      routerLink="/legal-notice"
+      class="legal-notice-background-container"
+      [class.active]="activeLink === '/legal-notice'"
+      (click)="setActiveLink('/legal-notice')"
+      aria-label="Open legal notice page"
+    >
+      <div class="link-container">
+        <p data-text="Legal Notice">
+          Legal Notice
+        </p>
+      </div>
+    </a>
+  </div>
+</nav>
+
+<nav
+  class="navbar-section-mobile"
+  role="navigation"
+  aria-label="Mobile navigation"
+>
+  <div class="navbar-mobile-components-container">
+    <div class="links-mobile-alignement">
+      <div class="navbar-links-mobile">
+        @if (!signalService.hideHrefs() && authService.isLoggedIn()) {
+          @for (link of links; track link.route) {
+            <app-navbar-icon-link
+              [iconUnclicked]="link.iconUnclicked"
+              [iconClicked]="link.iconClicked"
+              [route]="link.route"
+              [alt]="link.alt"
+              [isActive]="activeLink === link.route"
+              (activate)="setActiveLink(link.route)"
+            >
+            </app-navbar-icon-link>
+          }
+        }
+      </div>
+
+      <div class="privacy-and-legal-mobile">
+        <a
+          routerLink="/privacy-policy"
+          class="privacy-policy-background-container"
+          [class.active]="activeLink === '/privacy-policy'"
+          (click)="setActiveLink('/privacy-policy')"
+          aria-label="Open privacy policy page"
+        >
+          <div class="link-container">
+            <p>
+              Privacy Policy
+            </p>
+          </div>
         </a>
-        <a  routerLink="/legal-notice" class="legal-notice-background-container" [class.active]="activeLink === '/legal-notice'" (click)="setActiveLink('/legal-notice')">
-            <div class="link-container">
-                <p data-text="Legal Notice">Legal Notice</p>
-            </div>
+
+        <a
+          routerLink="/legal-notice"
+          class="legal-notice-background-container"
+          [class.active]="activeLink === '/legal-notice'"
+          (click)="setActiveLink('/legal-notice')"
+          aria-label="Open legal notice page"
+        >
+          <div class="link-container">
+            <p>
+              Legal Notice
+            </p>
+          </div>
         </a>
+      </div>
     </div>
-</div>
-<div class="navbar-section-mobile">
-    <div class="navbar-mobile-components-container">
-        <div class="links-mobile-alignement">
-            <div class="navbar-links-mobile">
-                @if (!signalService.hideHrefs() && authService.isLoggedIn()) {
-                    @for (link of links; track link.route) {
-                        <app-navbar-icon-link
-                            [iconUnclicked]="link.iconUnclicked"
-                            [iconClicked]="link.iconClicked"
-                            [route]="link.route"
-                            [alt]="link.alt"
-                            [isActive]="activeLink === link.route"
-                            (activate)="setActiveLink(link.route)"
-                        >
-                        </app-navbar-icon-link>
-                    }
-                }
-            </div>
-            <div class="privacy-and-legal-mobile">
-                <a routerLink="/privacy-policy" class="privacy-policy-background-container" [class.active]="activeLink === '/privacy-policy'" (click)="setActiveLink('/privacy-policy')">
-                    <div class="link-container">
-                        <p>Privacy Policy</p>
-                    </div>
-                </a>
-                <a routerLink="/legal-notice" class="legal-notice-background-container" [class.active]="activeLink === '/legal-notice'" (click)="setActiveLink('/legal-notice')">
-                    <div class="link-container">
-                        <p>Legal notice</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
+  </div>
+</nav>
