@@ -29,11 +29,10 @@ export class ContactInfoComponent {
     id: string;
     name: string;
     mail: string;
-    phone: string
+    phone: string;
   }>();
   btnDelete: boolean = false;
   btnEdit: boolean = false;
-
 
   /** Lifecycle hook that checks the screen size on component initialization. */
   ngOnInit() {
@@ -55,7 +54,7 @@ export class ContactInfoComponent {
     if (contact.id) {
       try {
         await this.contactsService.deleteContact(contact.id);
-        this.closeContactInfo.emit(true)
+        this.closeContactInfo.emit(true);
       } catch (error) {
         console.error('Error deleting contact:', error);
       }
