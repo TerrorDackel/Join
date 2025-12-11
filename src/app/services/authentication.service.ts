@@ -1,5 +1,4 @@
 import { Injectable, signal, inject } from '@angular/core';
-import { initializeApp } from "firebase/app";
 import { Router } from '@angular/router';
 import {
   getAuth,
