@@ -1,12 +1,10 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from "./shared/header/header.component";
-import { NavbarComponent } from "./shared/navbar/navbar.component";
+import { HeaderComponent } from './shared/header/header.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 import { DailyResetService } from './services/daily-reset.service';
 import { ToastComponent } from './shared/toast/toast.component';
-import { SignalsService } from './services/signals.service';
 import { AuthenticationService } from './services/authentication.service';
-
 
 /**
  * The root component of the application.
@@ -23,9 +21,7 @@ import { AuthenticationService } from './services/authentication.service';
 export class AppComponent {
   title = 'join';
   dailyReset = inject(DailyResetService);
-  signalService = inject(SignalsService);
   authService = inject(AuthenticationService);
-
 
   /**
    * Initializes the component and triggers the daily reset after a short delay.
@@ -35,13 +31,4 @@ export class AppComponent {
       this.dailyReset.checkAndResetIfNeeded();
     }, 1000);
   }
-
-  /**
-   * Angular lifecycle hook that runs after the component has been initialized.
-   * Used here to set the active user's initials in the UI.
-   */
-  ngOnInit() {
-    this.authService.setActiveUserInitials();
-  }
-
 }

@@ -1,23 +1,37 @@
 <div class="page-content">
-    <!-- CHANGED: Removed '|| signalService.hideHrefs()' to prevent showing navbar during login/signup -->
-    @if (authService.isLoggedIn() || signalService.hideHrefs()) {
-        <app-navbar />
+  @if (authService.isLoggedIn()) {
+  <app-navbar></app-navbar>
+  }
+
+  <div class="header-content">
+    @if (authService.isLoggedIn()) {
+    <app-header></app-header>
     }
 
-    <div class="header-content">
-        <!-- CHANGED: Removed '|| signalService.hideHrefs()' to prevent showing header during login/signup -->
-        @if (authService.isLoggedIn() || signalService.hideHrefs()) {
-            <app-header />
-        }
+    <main
+      class="main-content"
+      role="main"
+      aria-live="polite"
+    >
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 
-        <router-outlet />
-    </div>
-
-    <app-toast />
+  <app-toast></app-toast>
 </div>
 
 <div class="orientation-lock">
-    <img src="./assets/icons/header/logo.svg" class="logo-lock">
-    <p>Please rotate your device into portrait mode to use the app</p>
-    <img src="./assets/icons/general/mobile.png" class="rotate-phone">
+  <img
+    src="./assets/icons/header/logo.svg"
+    class="logo-lock"
+    alt="Join 360 logo"
+  >
+  <p>
+    Please rotate your device into portrait mode to use the app
+  </p>
+  <img
+    src="./assets/icons/general/mobile.png"
+    class="rotate-phone"
+    alt="Rotate phone icon"
+  >
 </div>
