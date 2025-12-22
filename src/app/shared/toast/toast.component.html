@@ -1,8 +1,21 @@
 @if (isToastOpen$ | async) {
-<div class="toast" [ngClass]="[(isToastAnimated$ | async) ? 'show' : '', toastType$ | async]">
-    <span>{{ toastMessage$ | async }}</span>
-    @if ((toastIcon$ | async) !== '') {
-    <img [src]="toastIcon$ | async" alt="Toast Icon" class="toast-icon" />
-    }
+<div
+  class="toast"
+  [ngClass]="[(isToastAnimated$ | async) ? 'show' : '', toastType$ | async]"
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+>
+  <span class="toast-message">
+    {{ toastMessage$ | async }}
+  </span>
+  @if ((toastIcon$ | async) !== '') {
+  <img
+    class="toast-icon"
+    [src]="toastIcon$ | async"
+    alt=""
+    aria-hidden="true"
+  />
+  }
 </div>
 }
