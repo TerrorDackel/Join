@@ -1,14 +1,17 @@
-<a class="navbar-icon-link-background-container"
-    [class.active]="isActive"
-    [routerLink]="route"
-    (click)="onClick()"
+<a
+  class="navbar-icon-link-background-container"
+  [class.active]="isActive"
+  [routerLink]="route"
+  (click)="onClick()"
+  [attr.aria-current]="isActive ? 'page' : null"
+  [attr.aria-label]="alt"
 >
-    <div class="navbar-icon-link-container">
-        <div class="icon-container">
-            <img [src]="currentIcon" [alt]="alt" />
-        </div>
-        <div class="link-container">
-            <p >{{ alt }}</p>
-        </div>
+  <div class="navbar-icon-link-container">
+    <div class="icon-container">
+      <img [src]="currentIcon" [alt]="alt" />
     </div>
+    <div class="link-container">
+      <p>{{ alt }}</p>
+    </div>
+  </div>
 </a>
