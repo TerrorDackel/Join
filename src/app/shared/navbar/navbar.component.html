@@ -27,7 +27,7 @@
             [iconClicked]="link.iconClicked"
             [route]="link.route"
             [alt]="link.alt"
-            [isActive]="activeLink === link.route"
+            [isActive]="activeLink.startsWith(link.route)"
             (activate)="setActiveLink(link.route)"
           >
           </app-navbar-icon-link>
@@ -40,9 +40,11 @@
     <a
       routerLink="/privacy-policy"
       class="privacy-policy-background-container"
-      [class.active]="activeLink === '/privacy-policy'"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
       (click)="setActiveLink('/privacy-policy')"
       aria-label="Open privacy policy page"
+      [attr.aria-current]="activeLink.startsWith('/privacy-policy') ? 'page' : null"
     >
       <div class="link-container">
         <p data-text="Privacy Policy">
@@ -54,9 +56,11 @@
     <a
       routerLink="/legal-notice"
       class="legal-notice-background-container"
-      [class.active]="activeLink === '/legal-notice'"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
       (click)="setActiveLink('/legal-notice')"
       aria-label="Open legal notice page"
+      [attr.aria-current]="activeLink.startsWith('/legal-notice') ? 'page' : null"
     >
       <div class="link-container">
         <p data-text="Legal Notice">
@@ -82,7 +86,7 @@
               [iconClicked]="link.iconClicked"
               [route]="link.route"
               [alt]="link.alt"
-              [isActive]="activeLink === link.route"
+              [isActive]="activeLink.startsWith(link.route)"
               (activate)="setActiveLink(link.route)"
             >
             </app-navbar-icon-link>
@@ -94,9 +98,11 @@
         <a
           routerLink="/privacy-policy"
           class="privacy-policy-background-container"
-          [class.active]="activeLink === '/privacy-policy'"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
           (click)="setActiveLink('/privacy-policy')"
           aria-label="Open privacy policy page"
+          [attr.aria-current]="activeLink.startsWith('/privacy-policy') ? 'page' : null"
         >
           <div class="link-container">
             <p>
@@ -108,9 +114,11 @@
         <a
           routerLink="/legal-notice"
           class="legal-notice-background-container"
-          [class.active]="activeLink === '/legal-notice'"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
           (click)="setActiveLink('/legal-notice')"
           aria-label="Open legal notice page"
+          [attr.aria-current]="activeLink.startsWith('/legal-notice') ? 'page' : null"
         >
           <div class="link-container">
             <p>

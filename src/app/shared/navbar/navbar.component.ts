@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, NavigationEnd, RouterLink } from '@angular/router';
+import { Router, NavigationEnd, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NavbarIconLinkComponent } from './navbar-icon-link/navbar-icon-link.component';
 import { SignalsService } from '../../services/signals.service';
@@ -8,7 +8,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NavbarIconLinkComponent, RouterLink],
+  imports: [NavbarIconLinkComponent, RouterLink, RouterLinkActive],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
